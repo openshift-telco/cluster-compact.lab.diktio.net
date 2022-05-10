@@ -1,0 +1,49 @@
+node:
+  site: site1
+  name: "cu11"
+  role: worker
+  technology: 5gmmw
+  net_function: cu_002
+  hw_profile: lenovo-ws-x11
+  # hint to try and deploy the RHCOS tro the correct disk
+  # for given platform including VMs
+  boot_dev_hint: /dev/nvme0n1
+  # OPTIONAL Set to True if node does not support Redfish virtual media.
+  # Manual download and attachment of ISO will be required.
+  externallyProvisioned: True
+  # set to true if not installing on SSD or NVMe, example spinning HDD
+  boot_spinner_hint: false
+  lso: "true"
+  ocs: "false"
+  node_labels:
+    ran.openshift.io/sriov: ''
+    ran.openshift.io/oran-mh-vfio: ''
+    ran.openshift.io/oran-mh-netdevice: ''
+    ran.openshift.io/oran-bh-vfio: ''
+  node_annotations:
+    kubernetes.io/description: 'test annotation cu_001'
+  # IP will be applied to either the bond interface (if enabled) or the 1st interface in the "interfaces" list
+  IP: "198.19.129.46"
+  prefix_length: 24
+  #Assumes 1st "bond_members" interface(s) in "interface list" forms the bond
+  bond_enable: "false"
+  bond_name: bond0
+  bond_members: "2"
+  bond_mode: active-backup
+  #
+  int_mtu: 9000
+  #
+  interfaces:
+  - name: "enp3s0"
+    mac: "fc:34:97:1a:d9:ee"
+  - name: "enp1s0f0"
+    mac: "40:a6:b7:15:f4:64"
+  - name: "enp1s0f1"
+    mac: "40:a6:b7:15:f4:65"
+  - name: "eno1"
+    mac: "ac:1f:6b:f6:6a:34"
+  - name: "eno2"
+    mac: "ac:1f:6b:f6:6a:35"
+  bmc_username: ADMIN
+  bmc_password: Redhat01
+  bmc_address: redfish-virtualmedia+https://192.19.142.10/redfish/v1/Systems/1

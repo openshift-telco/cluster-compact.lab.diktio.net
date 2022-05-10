@@ -1,0 +1,85 @@
+node:
+  # Site name for this worker.
+  # Assuming will have 1 site collocated with control/master nodes and others
+  # will be remote, L3 routed away from  control node site.
+  site: site1
+  #
+  # node name , FQDN will be the <node.name>.<cluster.name>.<global.domain>
+  name: "cu11"
+  #
+  # Initial role of node, should not change from worker
+  role: worker
+  #
+  # Technology (or use-case) label/name of node, for mobile would be 5gmmw, 5gsub6 or 4glte
+  technology: 5gmmw
+  #
+  # Function of node within the given technology/use-case
+  # At present, using a naming plan of <function>_<profile> where profile would refer to a specific 
+  # hardware configuration or compute vendor resulting in different interface names etc.
+  net_function: cu_002
+  #
+  # Unused at the moment in lieu of the <function>_<profile> method described above
+  # Envisage it may replace method above or simply used to label the node... TBD
+  hw_profile: lenovo-ws-x11
+  #
+  # hint to try and deploy the RHCOS tro the correct disk
+  # for given platform including VMs
+  boot_dev_hint: /dev/nvme0n1
+  #
+  # OPTIONAL Set to True if node does not support Redfish virtual media.
+  # Manual download and attachment of ISO will be required.
+  externallyProvisioned: True
+  #
+  # lso flag if node is to be labeled for LSO
+  lso: "true"
+  #
+  # OCS/ODF flag if node is to be labeled for OCS internal
+  ocs: "false"
+  #
+  # List of labels to be applied to the node for the given use-case
+  node_labels:
+    ran.openshift.io/sriov: ''
+    ran.openshift.io/oran-mh-vfio: ''
+    ran.openshift.io/oran-mh-netdevice: ''
+    ran.openshift.io/oran-bh-vfio: ''
+  #
+  # List of annotations to be applied to the node for the given use-case
+  node_annotations:
+    kubernetes.io/description: 'test annotation cu_001'
+  #
+  # Static IP to be applied to either the bond interface (if enabled) or the 1st interface in the "interfaces" list
+  IP: "198.19.129.46"
+  prefix_length: 24
+  # 
+  # OPTIONAL bond definition
+  # Set "bond_enable" to true if bond is required else false
+  # Assumes 1st "bond_members" interface(s) in "interface list" forms the bond
+  bond_enable: "false"
+  bond_name: bond0
+  bond_members: "2"
+  bond_mode: active-backup
+  #
+  # MTU applied to all interfaces
+  int_mtu: 9000
+  #
+  # List of interfaces and MAC addresses on the node
+  # Order is important as it is used to determine the interface(s) used for the cluster network
+  # If bond_enable is "false" then the 1st interface will be used for the cluster network
+  # If bond_enable is "true" then the first "bond_members" of interface(s) will form the bond for the cluster network
+  # Remaining interfaces could be in any order and will be configured with MTU plus IPv4 and IPv6 disabled
+  interfaces:
+  - name: "enp3s0"
+    mac: "fc:34:97:1a:d9:ee"
+  - name: "enp1s0f0"
+    mac: "40:a6:b7:15:f4:64"
+  - name: "enp1s0f1"
+    mac: "40:a6:b7:15:f4:65"
+  - name: "eno1"
+    mac: "ac:1f:6b:f6:6a:34"
+  - name: "eno2"
+    mac: "ac:1f:6b:f6:6a:35"
+  #
+  # BMC access information
+  bmc_username: ADMIN
+  bmc_password: Redhat01
+  bmc_address: redfish-virtualmedia+https://192.19.142.10/redfish/v1/Systems/1
